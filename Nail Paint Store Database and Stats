@@ -1,0 +1,30 @@
+--Create a nail paint store database
+
+CREATE TABLE Nail_Paint (id INTEGER PRIMARY KEY, color TEXT, quantity INTEGER, style TEXT, price INTEGER);
+
+INSERT INTO Nail_Paint
+VALUES
+(1, 'pink', 20, 'matt', 4),
+(2, 'red', 20, 'chrome', 6),
+(3, 'black', 20, 'normal', 3),
+(4, 'blue', 20, 'matt', 4),
+(5, 'blue', 20, 'chrome', 6),
+(6, 'green', 20, 'sparkle', 8),
+(7, 'yellow', 20, 'matt', 4),
+(8, 'clear', 20, 'normal', 3),
+(9, 'orange', 20, 'chrome', 6),
+(10, 'tan', 20, 'matt', 4),
+(11, 'green', 20, 'normal', 3),
+(12, 'yellow', 20, 'chrome', 6),
+(13, 'orange', 20, 'sparkle', 8),
+(14, 'black', 30, 'sparkle', 8),
+(15, 'pink', 20, 'chrome', 6);
+
+--display database ordered by style.
+SELECT * FROM Nail_Paint ORDER BY style;
+
+--display products from database where price is larger than $5.00.
+SELECT * FROM Nail_Paint WHERE price > 5;
+
+--How much much total money will you be getting from each style of nail paint?
+SELECT style, sum(price) FROM Nail_Paint GROUP BY style;
