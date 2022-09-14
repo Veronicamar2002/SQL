@@ -73,3 +73,29 @@ FROM BIT_DB.JanSales
 GROUP BY product
 ORDER BY sum(quantity*price) desc
 LIMIT 1;
+
+-- Top 10 popular songs (and their creators) on Spotify.
+SELECT artist_name, track_name, popularity
+FROM Spotifydata2021
+ORDER BY popularity desc
+LIMIT 10;
+
+-- Top 10 popular artists on Spotify based on average song popularity.
+SELECT artist_name, sum(popularity)/count(id) as AVG_Popularity
+FROM BIT_DB.Spotifydata2021
+GROUP BY artist_name
+ORDER BY sum(popularity)/count(id) desc
+LIMIT 10;
+
+-- What is the average duration of the top 10 artists on Spotify?
+SELECT artist_name, sum(duration_ms)/count(id) as AVG_Duration
+FROM BIT_DB.Spotifydata2021
+GROUP BY artist_name
+ORDER BY sum(popularity)/count(id) desc
+LIMIT 10;
+
+-- What are the top 5 most danceable songs on Spotify?
+SELECT track_name, danceability
+FROM BIT_DB.Spotifydata2021
+ORDER BY danceability desc
+LIMIT 5;
