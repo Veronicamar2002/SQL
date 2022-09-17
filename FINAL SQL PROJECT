@@ -1,0 +1,64 @@
+-- How many invoices took place in 2010?
+SELECT count(InvoiceDate) FROM chinook.invoices WHERE InvoiceDate like '%2010%';
+
+-- How many sales took place in 2010?
+Select SUM(total) FROM chinook.invoices
+WHERE invoicedate like '2010%';
+
+-- Show customers names, ID and their corresponding Support Representatives names, title and ID.
+SELECT cust.LastName, cust.FirstName, cust.CustomerId, 
+emp.LastName, emp.FirstName, emp.Title, emp.EmployeeId
+FROM chinook.customers cust
+LEFT JOIN chinook.employees emp
+ON cust.SupportRepId = emp.EmployeeID
+ORDER BY cust.LastName ASC;
+
+-- Show Employees who are not Sales Support Agents.
+SELECT LastName, FirstName, Title, EmployeeID 
+FROM chinook.employees
+WHERE title != 'Sales Support Agent';
+
+-- Sum of quantity sold per country.
+SELECT sum(quantity), cust.country
+FROM chinook.customers cust
+LEFT JOIN chinook.invoice_items initems
+ON initems.invoiceid = cust.customerid
+GROUP BY Country
+ORDER BY country ASC;
+
+-- Customer count per country.
+Select count(customerid), country FROM chinook.customers
+GROUP BY Country;
+
+-- Purchased track name and artist name with each invoice line item.
+SELECT t.Name, t.Composer, i.InvoiceLineId
+FROM chinook.invoice_items i
+JOIN chinook.tracks t 
+ON i.TrackId = t.TrackId;
+
+-- Which sales agent made the most sales in 2010?
+SELECT emp.FirstName, emp.LastName,
+ROUND (SUM(Inv.Total), 2) as 'Total Sales'
+FROM chinook.employees emp
+
+JOIN chinook.customers cust
+ON cust.supportrepid = emp.employeeid
+
+JOIN chinook.invoices inv
+ON inv.customerid = cust.customerid
+
+WHERE emp.title = 'Sales Support Agent'
+AND inv.invoicedate like '2010%'
+GROUP BY emp.FirstName
+ORDER BY (ROUND(SUM(Inv.Total), 2)) DESC LIMIT 1;
+
+-- Invoices of customers from Argentina.
+SELECT cust.FirstName, cust.LastName, inv.InvoiceId, inv.BillingCountry, inv.InvoiceDate
+FROM chinook.invoices as inv
+LEFT JOIN chinook.customers as cust
+on inv.CustomerId = cust.CustomerId
+WHERE inv.BillingCountry = 'Argentina';
+
+-- Customers from Czech Republic.
+SELECT * FROM chinook.customers
+WHERE country = 'Czech Republic';
